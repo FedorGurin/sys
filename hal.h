@@ -342,7 +342,7 @@ public:
     EGlobalNodeID currentGlobalTypeNode;
 private:
     static THAL<T> *hal;
-    //! сокеты для определения признака соеднения
+    //! сокеты для определения признака соединения
     //! сокет для передачи данных в узлы
     UdpSocket *udpSend;
     //! сокет для получения данных от узлов
