@@ -21,11 +21,17 @@ template <> bool doHAL<TDesGen_U>(int32_t idCh,    //! идентификато�
              //! сохранить данные в канале
              TDesGen_U * gen_u = (TDesGen_U*)ch->desData;
              
-             
-             gen_u->u = ((int16_t)math_func::roundMin((double)0x3ff / 150. * value.u)) & 0x3ff;
-             gen_u->f = ((uint16_t)(math_func::roundMin(value.f * 67.108864) - 20000)) & 0x7fff;
-             gen_u->ff=  (uint16_t)math_func::truncVal((double)15000. / (double)value.f) & 0x7fff;
-             gen_u->phase = value.phase;
+             //memcpy((void*)&gen_u,(void*)&value,sizeof(TDesGen_U));
+             gen_u->u1 = 0xFFF * limitMinMax(value.u1/140.0,0.0,1.0);
+             gen_u->u2 = 0xFFF * limitMinMax(value.u2/140.0,0.0,1.0);
+             gen_u->u3 = 0xFFF * limitMinMax(value.u3/140.0,0.0,1.0);
+
+             gen_u->freq = value.freq;
+
+             //gen_u->u = ((int16_t)math_func::roundMin((double)0x3ff / 150. * value.u)) & 0x3ff;
+             //gen_u->f = ((uint16_t)(math_func::roundMin(value.f * 67.108864) - 20000)) & 0x7fff;
+             //gen_u->ff=  (uint16_t)math_func::truncVal((double)15000. / (double)value.f) & 0x7fff;
+             //gen_u->phase = value.phase;
              break;
          }       
          default:{}
@@ -50,10 +56,14 @@ template <> bool doHAL<TDesGen_NU>(int32_t idCh,    //! идентификато
      {
      case E_GEN_NU:
             {
+
                 //! сохранить данные в канале
                 TDesGen_NU * gen_nu = (TDesGen_NU*)ch->desData;
-                gen_nu->f  = (uint32_t)math_func::roundMin(value.f * 67.108864) - 20000;
-                gen_nu->ff = (uint16_t)math_func::truncVal((double)15000 / value.f) & 0x7fff;
+                //memcpy((void*)&gen_nu,(void*)&value,sizeof(TDesGen_NU));
+                gen_nu->freq = value.freq;
+                //gen_nu->freq = value;
+                //gen_nu->f  = (uint32_t)math_func::roundMin(value.f * 67.108864) - 20000;
+                //gen_nu->ff = (uint16_t)math_func::truncVal((double)15000 / value.f) & 0x7fff;
                 break;
             }
          default:{}

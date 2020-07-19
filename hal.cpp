@@ -507,24 +507,197 @@ template<> void HAL::loadTestTables() {
     TDesGen_U *gen_u = 0;
     TDesITP *itp     = 0;
 
-    t->confPCI.numMil = 3;
-    t->confPCI.mil[0].typeNode = E_NODE_CV;
-    t->confPCI.mil[0].idNode   = 1;
-    t->confPCI.mil[0].numAdapterRegOU  = 1;
-    t->confPCI.mil[0].numAdapterRegMon = 0;
-    t->confPCI.mil[0].numAdapterRegKOU = 0;
+ ////////////////
+    //! таблица с названиями
+    t->nameTable.numNode = 3;
+    ///
+    t->nameTable.node[0].typeNode = E_NODE_CV;
+    t->nameTable.node[0].idNode = 1;
+    strcpy(t->nameTable.node[0].name, "BREO");
+    strcpy(t->nameTable.node[0].mac, "00-1B-21-A6-CA-B0");
 
-    t->confPCI.mil[1].typeNode = E_NODE_CV;
-    t->confPCI.mil[1].idNode   = 3;
-    t->confPCI.mil[1].numAdapterRegOU  = 1;
-    t->confPCI.mil[1].numAdapterRegMon = 0;
-    t->confPCI.mil[1].numAdapterRegKOU = 0;
+    t->nameTable.node[1].typeNode = E_NODE_PV;
+    t->nameTable.node[1].idNode = 1;
+    strcpy(t->nameTable.node[1].name, "OVO");
+    strcpy(t->nameTable.node[1].mac, "00-1B-21-A6-C8-F0");
 
-    t->confPCI.mil[2].typeNode = E_NODE_PV;
-    t->confPCI.mil[2].idNode   = 10;
-    t->confPCI.mil[2].numAdapterRegOU  = 0;
-    t->confPCI.mil[2].numAdapterRegMon = 1;
-    t->confPCI.mil[2].numAdapterRegKOU = 0;
+    t->nameTable.node[2].typeNode = E_NODE_PV;
+    t->nameTable.node[2].idNode = 2;
+    strcpy(t->nameTable.node[2].name, "RP");
+    strcpy(t->nameTable.node[2].mac, "00-0B-AB-D5-EE-6F");
+	
+	
+	//! список портов для обмена данными по ethernet
+    t->ethPortTable.numPort = 6;
+    t->ethPortTable.port[ETH_PORT_SEND_VIS_SIVVO]   = 7030;
+    t->ethPortTable.port[ETH_PORT_REC_RLF_SIVVO]    = 5510;
+    t->ethPortTable.port[ETH_PORT_SEND_IND_SIVVO]   = 7016;
+    t->ethPortTable.port[ETH_PORT_REC_JOY]          = 8881;
+    t->ethPortTable.port[ETH_PORT_REC_MPPM]         = 9999;
+    t->ethPortTable.port[ETH_PORT_JNODE]    		= 7070;
+  
+	
+	 //! таблица Ethernet каналов
+    t->ethTable.numEth = ETH_IP_PW_CON_5 + 1;
+
+    t->ethTable.eth[ETH_IP_ARM_BREO].fromTypeNode = E_NODE_CV;
+    t->ethTable.eth[ETH_IP_ARM_BREO].fromIdNode = 1;
+    t->ethTable.eth[ETH_IP_ARM_BREO].numIf = 0;
+    t->ethTable.eth[ETH_IP_ARM_BREO].toTypeNode = E_NODE_NONE;
+    t->ethTable.eth[ETH_IP_ARM_BREO].toIdNode = 0;
+    strcpy(t->ethTable.eth[ETH_IP_ARM_BREO].ip, "192.168.226.101");
+    strcpy(t->ethTable.eth[ETH_IP_ARM_BREO].nameIf, "gei0");
+
+    t->ethTable.eth[ETH_IP_ARM_OVO].fromTypeNode = E_NODE_PV;
+    t->ethTable.eth[ETH_IP_ARM_OVO].fromIdNode = 1;
+    t->ethTable.eth[ETH_IP_ARM_OVO].numIf = 0;
+    t->ethTable.eth[ETH_IP_ARM_OVO].toTypeNode = E_NODE_NONE;
+    t->ethTable.eth[ETH_IP_ARM_OVO].toIdNode = 0;
+    strcpy(t->ethTable.eth[ETH_IP_ARM_OVO].ip, "192.168.226.102");
+    strcpy(t->ethTable.eth[ETH_IP_ARM_OVO].nameIf, "gei0");
+	
+	t->ethTable.eth[ETH_IP_ARM_RP].fromTypeNode = E_NODE_PV;
+    t->ethTable.eth[ETH_IP_ARM_RP].fromIdNode = 2;
+    t->ethTable.eth[ETH_IP_ARM_RP].numIf = 0;
+    t->ethTable.eth[ETH_IP_ARM_RP].toTypeNode = E_NODE_NONE;
+    t->ethTable.eth[ETH_IP_ARM_RP].toIdNode = 0;
+    strcpy(t->ethTable.eth[ETH_IP_ARM_RP].ip, "192.168.226.103");
+    strcpy(t->ethTable.eth[ETH_IP_ARM_RP].nameIf, "gei0");
+	
+	t->ethTable.eth[ETH_IP_SRMP].fromTypeNode = E_NODE_LMI;
+    t->ethTable.eth[ETH_IP_SRMP].fromIdNode = 1;
+    t->ethTable.eth[ETH_IP_SRMP].numIf = 0;
+    t->ethTable.eth[ETH_IP_SRMP].toTypeNode = E_NODE_NONE;
+    t->ethTable.eth[ETH_IP_SRMP].toIdNode = 0;
+    strcpy(t->ethTable.eth[ETH_IP_SRMP].ip, "192.168.226.160");
+    strcpy(t->ethTable.eth[ETH_IP_SRMP].nameIf, "gei0");
+	
+	t->ethTable.eth[ETH_IP_SIVVO].fromTypeNode = E_NODE_KGO;
+    t->ethTable.eth[ETH_IP_SIVVO].fromIdNode = 1;
+    t->ethTable.eth[ETH_IP_SIVVO].numIf = 0;
+    t->ethTable.eth[ETH_IP_SIVVO].toTypeNode = E_NODE_NONE;
+    t->ethTable.eth[ETH_IP_SIVVO].toIdNode = 0;
+    strcpy(t->ethTable.eth[ETH_IP_SIVVO].ip, "192.168.226.10");
+    strcpy(t->ethTable.eth[ETH_IP_SIVVO].nameIf, "gei0");
+	
+	t->ethTable.eth[ETH_IP_PW_CON_1].fromTypeNode = E_NODE_PV;
+    t->ethTable.eth[ETH_IP_PW_CON_1].fromIdNode = 10;
+    t->ethTable.eth[ETH_IP_PW_CON_1].numIf = 0;
+    t->ethTable.eth[ETH_IP_PW_CON_1].toTypeNode = E_NODE_NONE;
+    t->ethTable.eth[ETH_IP_PW_CON_1].toIdNode = 0;
+    strcpy(t->ethTable.eth[ETH_IP_PW_CON_1].ip, "192.168.226.151");
+    strcpy(t->ethTable.eth[ETH_IP_PW_CON_1].nameIf, "gei0");
+	
+	t->ethTable.eth[ETH_IP_PW_CON_2].fromTypeNode = E_NODE_PV;
+    t->ethTable.eth[ETH_IP_PW_CON_2].fromIdNode = 10;
+    t->ethTable.eth[ETH_IP_PW_CON_2].numIf = 0;
+    t->ethTable.eth[ETH_IP_PW_CON_2].toTypeNode = E_NODE_NONE;
+    t->ethTable.eth[ETH_IP_PW_CON_2].toIdNode = 0;
+    strcpy(t->ethTable.eth[ETH_IP_PW_CON_2].ip, "192.168.226.152");
+    strcpy(t->ethTable.eth[ETH_IP_PW_CON_2].nameIf, "gei0");
+	
+	t->ethTable.eth[ETH_IP_PW_CON_3].fromTypeNode = E_NODE_PV;
+    t->ethTable.eth[ETH_IP_PW_CON_3].fromIdNode = 10;
+    t->ethTable.eth[ETH_IP_PW_CON_3].numIf = 0;
+    t->ethTable.eth[ETH_IP_PW_CON_3].toTypeNode = E_NODE_NONE;
+    t->ethTable.eth[ETH_IP_PW_CON_3].toIdNode = 0;
+    strcpy(t->ethTable.eth[ETH_IP_PW_CON_3].ip, "192.168.226.153");
+    strcpy(t->ethTable.eth[ETH_IP_PW_CON_3].nameIf, "gei0");
+	
+	t->ethTable.eth[ETH_IP_PW_CON_4].fromTypeNode = E_NODE_PV;
+    t->ethTable.eth[ETH_IP_PW_CON_4].fromIdNode = 10;
+    t->ethTable.eth[ETH_IP_PW_CON_4].numIf = 0;
+    t->ethTable.eth[ETH_IP_PW_CON_4].toTypeNode = E_NODE_NONE;
+    t->ethTable.eth[ETH_IP_PW_CON_4].toIdNode = 0;
+    strcpy(t->ethTable.eth[ETH_IP_PW_CON_4].ip, "192.168.226.154");
+    strcpy(t->ethTable.eth[ETH_IP_PW_CON_4].nameIf, "gei0");
+	
+	t->ethTable.eth[ETH_IP_PW_CON_5].fromTypeNode = E_NODE_PV;
+    t->ethTable.eth[ETH_IP_PW_CON_5].fromIdNode = 10;
+    t->ethTable.eth[ETH_IP_PW_CON_5].numIf = 0;
+    t->ethTable.eth[ETH_IP_PW_CON_5].toTypeNode = E_NODE_NONE;
+    t->ethTable.eth[ETH_IP_PW_CON_5].toIdNode = 0;
+    strcpy(t->ethTable.eth[ETH_IP_PW_CON_5].ip, "192.168.226.155");
+    strcpy(t->ethTable.eth[ETH_IP_PW_CON_5].nameIf, "gei0");
+	
+     //! кол-во адаптеров
+    t->confISA.numAdapters = 6;
+    //-----------------------------------------------------
+    t->confISA.isa[0].typeNode = E_NODE_PV;
+    t->confISA.isa[0].idNode = 0;
+    t->confISA.isa[0].typeAdapter = E_A_GEN;
+    t->confISA.isa[0].numBaseAddr = 2;
+    t->confISA.isa[0].baseAddr[0] = 0x100;
+    t->confISA.isa[0].baseAddr[1] = 0x110;
+    t->confISA.isa[0].codeCheck = 0x1100;
+    t->confISA.isa[0].maskCheck = 0xFFFF;
+    t->confISA.isa[0].maxChAdapter = 4;
+    t->confISA.isa[0].offsetCheck = 4;
+    //-----------------------------------------------------
+    t->confISA.isa[1].typeNode = E_NODE_PV;
+    t->confISA.isa[1].idNode = 0;
+    t->confISA.isa[1].typeAdapter = E_A_TRREL48;
+    t->confISA.isa[1].numBaseAddr = 4;
+    t->confISA.isa[1].baseAddr[0] = 0x120;
+    t->confISA.isa[1].baseAddr[1] = 0x130;
+    t->confISA.isa[1].baseAddr[2] = 0x140;
+    t->confISA.isa[1].baseAddr[3] = 0x150;
+    t->confISA.isa[1].codeCheck = 0x7070;
+    t->confISA.isa[1].maskCheck = 0xFFFF;
+    t->confISA.isa[1].maxChAdapter = 48;
+    t->confISA.isa[1].offsetCheck = 6;
+
+    //------------------------------------------------------
+    t->confISA.isa[2].typeNode = E_NODE_PV;
+    t->confISA.isa[2].idNode = 0;
+    t->confISA.isa[2].typeAdapter = E_A_IR;
+    t->confISA.isa[2].numBaseAddr = 2;
+    t->confISA.isa[2].baseAddr[0] = 0x160;
+    t->confISA.isa[2].baseAddr[1] = 0x170;
+    t->confISA.isa[2].codeCheck = 0xF000;
+    t->confISA.isa[2].maskCheck = 0xFFF0;
+    t->confISA.isa[2].maxChAdapter = 12;
+    t->confISA.isa[2].offsetCheck = 4;
+    
+    //------------------------------------------------------
+    t->confISA.isa[3].typeNode = E_NODE_PV;
+    t->confISA.isa[3].idNode = 0;
+    t->confISA.isa[3].typeAdapter = E_A_DAC16;
+    t->confISA.isa[3].numBaseAddr = 3;
+    t->confISA.isa[3].baseAddr[0] = 0x1b0;
+    t->confISA.isa[3].baseAddr[1] = 0x1a0;
+    t->confISA.isa[3].baseAddr[2] = 0x1c0;
+    t->confISA.isa[3].codeCheck = 0x4000;
+    t->confISA.isa[3].maskCheck = 0xE000;
+    t->confISA.isa[3].maxChAdapter = 16;
+    t->confISA.isa[3].offsetCheck = 0;
+    //------------------------------------------------------
+    t->confISA.isa[4].typeNode = E_NODE_PV;
+    t->confISA.isa[4].idNode = 0;
+    t->confISA.isa[4].typeAdapter = E_A_IP;
+    t->confISA.isa[4].numBaseAddr = 1;
+    t->confISA.isa[4].baseAddr[0] = 0x1d0;
+    t->confISA.isa[4].codeCheck = 0xF000;
+    t->confISA.isa[4].maskCheck = 0xFFF0;
+    t->confISA.isa[4].maxChAdapter = 16;
+    t->confISA.isa[4].offsetCheck = 4;
+    //------------------------------------------------------
+    t->confISA.isa[5].typeNode = E_NODE_PV;
+    t->confISA.isa[5].idNode = 1;
+    t->confISA.isa[5].typeAdapter = E_A_ITP;
+    t->confISA.isa[5].numBaseAddr = 5;
+    t->confISA.isa[5].baseAddr[0] = 0x1e0;
+    t->confISA.isa[5].baseAddr[1] = 0x1f0;
+    t->confISA.isa[5].baseAddr[2] = 0x200;
+    t->confISA.isa[5].baseAddr[3] = 0x210;
+    t->confISA.isa[5].baseAddr[4] = 0x220;
+    t->confISA.isa[5].codeCheck = 0x114;
+    t->confISA.isa[5].maxChAdapter = 2;
+    t->confISA.isa[5].maskCheck = 0xFFFF;
+    t->confISA.isa[5].offsetCheck = 0;
+ 
+
+   
 }
 template<> void HAL::addParamToTable(uint32_t idParam,int16_t idCh,uint16_t idPackCh,uint16_t idParamCh, bool bit  )
 {

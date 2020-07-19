@@ -22,18 +22,19 @@
 //! тип узла
 enum TypeNodeHAL
 {
-    E_NODE_NONE = 0x0, /*тип узла - неопределен*/
-    E_NODE_PV   = 0x1, /*тип узла - переферийный вычислитель*/
-    E_NODE_CV   = 0x2, /*тип узла - центральный вычислитель*/
-    E_NODE_EISA = 0x3, /*тип узла - расширитель шины EISA*/
-    E_NODE_KGOO = 0x4, /*тип узла - для системы визуализации*/
-    E_NODE_LMI  = 0x5, /*тип узла - место ЛМИ*/
-    E_NODE_PKIP = 0x6, /*тип узла - имитатор для КСУ*/
-    E_NODE_PW   = 0x7  /*тип узла - ЛМИ с управлением питанием*/
+    E_NODE_NONE = 0x0000, /*тип узла - неопределен*/
+    E_NODE_PV   = 0x1000, /*тип узла - переферийный вычислитель*/
+    E_NODE_CV   = 0x2000, /*тип узла - центральный вычислитель*/
+    E_NODE_EISA = 0x3000, /*тип узла - расширитель шины EISA*/
+    E_NODE_KGOO = 0x4000, /*тип узла - для системы визуализации*/
+    E_NODE_LMI  = 0x5000, /*тип узла - место ЛМИ*/
+    E_NODE_PKIP = 0x6000, /*тип узла - имитатор для КСУ*/
+    E_NODE_PW   = 0x7000  /*тип узла - ЛМИ с управлением питанием*/
 };
 //! тип канала
 enum TypeChHAL
 {
+    E_CH_NONE   = 0x0,
     E_CH_RK     = 0x1,  /* канал разовых команд*/
     E_CH_ADC    = 0x2,  /* канал АЦП*/
     E_CH_DAC    = 0x3,  /* канал ЦАП*/
@@ -61,6 +62,11 @@ enum TypeAdapterISA
     E_A_IP      = 0x8, /*плата имитаторов потенциометра*/
     E_A_ITP     = 0x9  /*плата имитаторов термопары*/
 
+};
+enum TypeChIO
+{
+    E_CH_IO_INPUT,
+    E_CH_IO_OUTPUT
 };
 //#ifdef VXWORKS_PLATFORM
 //#pragma pack(1)
@@ -99,30 +105,34 @@ typedef struct TDesDAC_
     uint16_t volt;
 }TDesDAC;
 
-typedef struct TDesIR
+typedef struct TDesIR_
 {
     int16_t value; //код
     uint16_t min;
     uint16_t max;
 }TDesIR;
-typedef struct TDesITP
+typedef struct TDesIP_
 {
-    uint16_t value; //код
-    uint8_t type;   //тип термопары L = 0, K = 1
+    int16_t value; //код
     uint16_t max;
+}TDesIP;
+typedef struct TDesITP_
+{
+    int16_t value; //код
+    uint8_t  type;   //тип термопары L = 0, K = 1
+    float    max; //mv
 }TDesITP;
-typedef struct TDesGen_U
+typedef struct TDesGen_U_
 {
-    uint16_t u;     //код напряжения
-    uint8_t phase;  //разрешение фазы(A = 0x4, B = 0x2, C = 0x1
-    uint16_t f;     //код частоты
-    uint16_t ff;     //код частоты для фильтра
-
+    float u1;     //код напряжения
+    float u2;     //код напряжения
+    float u3;     //код напряжения
+    //uint8_t phase;   //разрешение фазы(A = 0x00, B = 0x1, C = 0x2, Резерв = 0x3)
+    float freq;      //
 }TDesGen_U;
-typedef struct TDesGen_NU
+typedef struct TDesGen_NU_
 {
-    uint32_t f;     //код частоты
-    uint16_t ff;     //код частоты для фильтра
+    float freq;      // частота
 }TDesGen_NU;
 //! описание канала ДПК
 typedef struct TDesAr_

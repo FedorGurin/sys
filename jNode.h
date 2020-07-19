@@ -21,7 +21,7 @@ typedef struct TUdpReciveList_
 //! заголовок пакета
 typedef struct TUdpJNodeHead_
 {
-    //! тип пакета(канальная запись - 0, 1 - наличие расширителей EISA)
+    //! тип пакета(канальная запись - 0, 1 - наличие расширителей EISA, 2 - all data)
     uint8_t type;
     //! размер переданого буфера
     uint16_t sizeBuf;
@@ -32,6 +32,10 @@ typedef struct TUdpJNodeCh_
 {
     //! индекс канала
     uint16_t indexCh;
+    //!
+    uint64_t tics;
+    //!
+    float step;
     //! буфер в зависимости типа канала
     uint8_t data[];
 }TUdpJNodeCh;
@@ -59,7 +63,7 @@ public:
     void sendDataToNodes();
     void recDataFromNodes();
     void parserRecData();
-    void packetFull(uint16_t *offset, unsigned long ip);
+    void packetFull(uint16_t *offset, unsigned long ip, uint8_t type = 0);
 private:
     //! список сокетов для приема
     std::vector<TUdpReciveList* > listUdpRec;
@@ -71,6 +75,7 @@ private:
     TUdpJNodePacket sendPacket;
     TUdpJNodePacket recPacket;
     TUdpJNodeHead recHead;
+    TTimerIC timerCh;
 
 };
 
